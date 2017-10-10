@@ -40,7 +40,7 @@ promise.then(function(dataSource2) {
         var position = entity.polygon.hierarchy.getValue().positions[0];
         terrainSamplePositions.push(Cesium.Cartographic.fromCartesian(position));
         entity.polygon.extrudedHeight = entity.properties.altura;
-        entity.polygon.height = 0;
+        entity.polygon.height = 5;
     }
     Cesium.when(Cesium.sampleTerrain(viewer.terrainProvider, 11, terrainSamplePositions), function() {
         for (var i = 0; i < entities2.length; i++) {
