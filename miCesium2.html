@@ -51,38 +51,6 @@ promise.then(function(dataSource2) {
         }
     });
 
-var terrainSamplePositions = [];
-var dataSource3 = new Cesium.GeoJsonDataSource();
-var promise = dataSource3.load('edificio2.geojson');
-promise.then(function(dataSource3) {
-    viewer.dataSources.add(dataSource3);
-    viewer.zoomTo(dataSource3);
-    var entities3 = dataSource3.entities.values;
-    var colorHash = {};
-    for (var i = 0; i < entities3.length; i++) {
-        var entity = entities3[i];
-        var name = entity.Elev_in_m;
-        var color = colorHash[name];
-        if (!color) {
-            color = Cesium.Color.BROWN; 
-            colorHash[name] = color;
-        }
-        entity.polygon.material = color;
-        entity.polygon.outline = false;
-        var position = entity.polygon.hierarchy.getValue().positions[0];
-        terrainSamplePositions.push(Cesium.Cartographic.fromCartesian(position));
-        entity.polygon.extrudedHeight = entity.properties.altura;
-        entity.polygon.height = 15;
-    }
-    Cesium.when(Cesium.sampleTerrain(viewer.terrainProvider, 11, terrainSamplePositions), function() {
-        for (var i = 0; i < entities3.length; i++) {
-            var entity = entities3[i];
-            var terrainHeight = terrainSamplePositions[i].height;
-            entity.polygon.height = terrainHeight;
-            entity.polygon.extrudedHeight = entity.properties.altura + terrainHeight;
-        }
-    });
-	
 	
 }).otherwise(function(error){
     console.error(error);
